@@ -58,13 +58,13 @@ try:
         line = radio.readline()
 
         # don't bother with empty lines
-        if line == b"\n":
+        if line == b"\r\n":
             continue
 
-        if line.endswith(b">:\n"):
+        if line.endswith(b">:\r\n"):
             log.debug("Found a fucked up line!")
             # Fix the line
-            line = re.sub(b" \[[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9]\] <UI ?[A-Z]?>:\n$", b":", line)
+            line = re.sub(b" \[[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9]\] <UI ?[A-Z]?>:\r\n$", b":", line)
 
             # wait for next line
             line2 = radio.readline()
