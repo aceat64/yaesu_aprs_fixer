@@ -32,9 +32,13 @@ input_symlink = "%s/input" % tmp_dir
 output_symlink = "%s/output" % tmp_dir
 
 log.info("Creating virtual serial port")
-cmd = ['/usr/bin/socat', '-d', '-d', 'PTY,link=%s,raw,echo=1' % input_symlink, 'PTY,link=%s,raw,echo=1' % output_symlink]
 
-socat = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+try:
+    cmd = ['/usr/bin/socat', '-d', '-d', 'PTY,link=%s,raw,echo=1' % input_symlink, 'PTY,link=%s,raw,echo=1' % output_symlink]
+    socat = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+except FileNotFoundError:
+    log.error("socat is not installed!")
+    sys.exit(1)
 
 # wait for "starting data transfer loop"
 while True:
